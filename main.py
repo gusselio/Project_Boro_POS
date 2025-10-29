@@ -5,6 +5,7 @@
 # Nombre: Gustavo Salvador Leal Dominguez
 # Fecha: 26 de Octubre de 2025
 # =========================================
+import time
 
 inventario = {
     "Cafe": 10,     #Kilos
@@ -14,7 +15,7 @@ inventario = {
     "Tapas": 100    #Unidades
 }
 def punto_de_venta():
-    print("Punto de venta")
+    print("\nPUNTO DE VENTA")
 
 def ventas():
     print("Ventas")
@@ -36,12 +37,15 @@ def menu_principal():
         match opcion:
             case 1:
                 print("Ingresando a Punto de Venta")
+                time.sleep(0.5)
                 punto_de_venta()
             case 2:
                 print("Ingresando a Ventas")
+                time.sleep(0.3)
                 ventas()
             case 3:
                 print("Ingresando a Inventarios")
+                time.sleep(0.8)
                 inventarios()
             case _:
                 print("Opcion invalida, intentelo nuevamente")
