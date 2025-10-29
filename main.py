@@ -13,3 +13,18 @@ inventario = {
     "Vasos": 100,   #Unidades
     "Tapas": 100    #Unidades
 }
+
+
+def menu_principal():
+    while True:
+        print("CAFE BORO - SISTEMA DE CONTROL")
+        print("1. Punto de Venta")
+        print("2. Ventas")
+        print("3. Inventario")
+        print("4. Salir")
+
+        opcion = int(input("Ingrese su opcion: "))
+        match opcion:
+            case 1:
+                print("Ingresando a Punto de Venta")
+                punto_de_venta()
