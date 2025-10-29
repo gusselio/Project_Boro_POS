@@ -16,6 +16,14 @@ inventario = {
 def punto_de_venta():
     print("Punto de venta")
 
+def ventas():
+    print("Ventas")
+
+def inventarios():
+    print("Inventarios")
+
+
+#Declaracion de la funcion Menu principal
 def menu_principal():
     while True:
         print("CAFE BORO - SISTEMA DE CONTROL")
@@ -29,3 +37,11 @@ def menu_principal():
             case 1:
                 print("Ingresando a Punto de Venta")
                 punto_de_venta()
+            case 2:
+                print("Ingresando a Ventas")
+            case 3:
+                print("Ingresando a Inventarios")
+            case _:
+                print("Opcion invalida, intentelo nuevamente")
+
+menu_principal()
