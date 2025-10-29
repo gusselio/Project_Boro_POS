@@ -39,8 +39,10 @@ def menu_principal():
                 punto_de_venta()
             case 2:
                 print("Ingresando a Ventas")
+                ventas()
             case 3:
                 print("Ingresando a Inventarios")
+                inventarios()
             case _:
                 print("Opcion invalida, intentelo nuevamente")
 
