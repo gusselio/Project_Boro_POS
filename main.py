@@ -21,7 +21,23 @@ def ventas():
     print("Ventas")
 
 def inventarios():
-    print("Inventarios")
+    print("INVENTARIOS")
+    while True:
+        print("\nQue accion quiere realizar?")
+        print("1. Ver Inventario Actual")
+        print("2. Añadir Producto")
+        print("3. Editar Producto")
+        print("4. Salir")
+        opcion = int(input("Ingrese su opcion: "))
+        match opcion:
+            case 1:
+                print("\n==============================")
+                print("      INVENTARIO ACTUAL")
+                print("==============================")
+                print(f"{'Nombre':<15} | {'Cantidad'}")
+                print("-" * 30)
+                for producto, cantidad in inventario.items():
+                    print(f"{producto:<15}: {cantidad}")
 
 
 #Declaracion de la funcion Menu principal
