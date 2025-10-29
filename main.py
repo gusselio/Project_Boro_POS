@@ -13,7 +13,8 @@ inventario = {
     "Vasos": 100,   #Unidades
     "Tapas": 100    #Unidades
 }
-
+def punto_de_venta():
+    print("Punto de venta")
 
 def menu_principal():
     while True:
