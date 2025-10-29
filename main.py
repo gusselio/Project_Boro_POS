@@ -20,17 +20,30 @@ def punto_de_venta():
 def ventas():
     print("Ventas")
 
+def agregar_articulo():
+    nombre_artirulo_nuevo = input("Ingrese el nombre del nuevo articulo: ")
+    cantidad_nuevo_articulo = int(input("Ingrese la cantidad: "))
+
+    if nombre_artirulo_nuevo in inventario:
+        print("El nuevo articulo ya existe")
+    else:
+        inventario[nombre_artirulo_nuevo] = cantidad_nuevo_articulo
+        print(f"El articulo {nombre_artirulo_nuevo} ha sido agregado correctamente, con {cantidad_nuevo_articulo}")
+
 def inventarios():
-    print("INVENTARIOS")
+    print("\n==============================")
+    print("        INVENTARIOS")
+    print("==============================")
     while True:
         print("\nQue accion quiere realizar?")
         print("1. Ver Inventario Actual")
         print("2. Añadir Producto")
         print("3. Editar Producto")
         print("4. Salir")
-        opcion = int(input("Ingrese su opcion: "))
+        opcion = int(input("\nIngrese su opcion: "))
         match opcion:
             case 1:
+                print("Cargando Inventario", time.sleep(0.1),".",time.sleep(0.1),".",time.sleep(0.1),".\n")
                 print("\n==============================")
                 print("      INVENTARIO ACTUAL")
                 print("==============================")
@@ -38,6 +51,9 @@ def inventarios():
                 print("-" * 30)
                 for producto, cantidad in inventario.items():
                     print(f"{producto:<15}: {cantidad}")
+            case 2:
+                agregar_articulo()
+
 
 
 #Declaracion de la funcion Menu principal
@@ -60,7 +76,7 @@ def menu_principal():
                 time.sleep(0.3)
                 ventas()
             case 3:
-                print("Ingresando a Inventarios")
+                print("\nIngresando a Inventarios")
                 time.sleep(0.8)
                 inventarios()
             case _:
