@@ -30,6 +30,28 @@ def agregar_articulo():
         inventario[nombre_artirulo_nuevo] = cantidad_nuevo_articulo
         print(f"El articulo {nombre_artirulo_nuevo} ha sido agregado correctamente, con {cantidad_nuevo_articulo}")
 
+def editar_articulo():
+    articulo_editar = input("Cual articulo quieres editar?: ")
+    while True:
+        if articulo_editar in inventario:
+            print("Que quieres editar?\n 1. Nombre de Articulo\n 2. Cantidad del Articulo")
+            opcion_editar_articulo = int(input("Ingrese su opcion: "))
+            if opcion_editar_articulo == 1:
+                nuevo_nombre_articulo = input("Ingrese el nuevo nombre del articulo: ")
+                valor_actual = inventario[articulo_editar]
+                inventario[nuevo_nombre_articulo] = valor_actual
+                del inventario[articulo_editar]
+                print(f"El cambio ha sido realizado correctamente")
+                print(f"Nombre cambiado correctamente a {nuevo_nombre_articulo}")
+            elif opcion_editar_articulo == 2:
+                nueva_cantidad_articulo = int(input("Ingrese su nuevo cantidad: "))
+                inventario[articulo_editar] = nueva_cantidad_articulo
+            else:
+                break
+        else:
+            print("Este articulo no existe, revise el nombre ingresado")
+        break
+
 def inventarios():
     print("\n==============================")
     print("        INVENTARIOS")
@@ -43,7 +65,7 @@ def inventarios():
         opcion = int(input("\nIngrese su opcion: "))
         match opcion:
             case 1:
-                print("Cargando Inventario", time.sleep(0.1),".",time.sleep(0.1),".",time.sleep(0.1),".\n")
+                print("Cargando Inventario")
                 print("\n==============================")
                 print("      INVENTARIO ACTUAL")
                 print("==============================")
@@ -53,6 +75,9 @@ def inventarios():
                     print(f"{producto:<15}: {cantidad}")
             case 2:
                 agregar_articulo()
+
+            case 3:
+                editar_articulo()
 
 
 
