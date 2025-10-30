@@ -104,6 +104,8 @@ def inventarios():
                 editar_producto()
             case 4:
                 eliminar_producto()
+            case 5:
+                break
 
 
 
