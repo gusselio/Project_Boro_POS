@@ -58,7 +58,13 @@ inventario = {
     "Polvo Matcha": 150
 }
 def punto_de_venta():
-    print("\nPUNTO DE VENTA")
+    print("\n==============================")
+    print("        PUNTO DE VENTA")
+    print("==============================")
+    while True:
+        print("\nQue accion quiere realizar?")
+        print("1. Realizar una Venta")
+        print("5. Salir")
 
 def ventas():
     print("Ventas")
@@ -179,4 +185,3 @@ def menu_principal():
                 print("Opcion invalida, intentelo nuevamente")
 
 menu_principal()
-print("Print de prueba, No olvida eliminar")
