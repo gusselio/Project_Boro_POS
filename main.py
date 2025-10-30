@@ -20,7 +20,8 @@ def punto_de_venta():
 def ventas():
     print("Ventas")
 
-def agregar_articulo():
+#SUBFUNCIONES DE INVENTARIOS
+def agregar_producto():
     nombre_artirulo_nuevo = input("Ingrese el nombre del nuevo articulo: ")
     cantidad_nuevo_articulo = int(input("Ingrese la cantidad: "))
 
@@ -30,7 +31,7 @@ def agregar_articulo():
         inventario[nombre_artirulo_nuevo] = cantidad_nuevo_articulo
         print(f"El articulo {nombre_artirulo_nuevo} ha sido agregado correctamente, con {cantidad_nuevo_articulo}")
 
-def editar_articulo():
+def editar_producto():
     articulo_editar = input("Cual articulo quieres editar?: ")
     while True:
         if articulo_editar in inventario:
@@ -38,8 +39,14 @@ def editar_articulo():
             opcion_editar_articulo = int(input("Ingrese su opcion: "))
             if opcion_editar_articulo == 1:
                 nuevo_nombre_articulo = input("Ingrese el nuevo nombre del articulo: ")
+
+                #Se copia el valor de la clave vieja
                 valor_actual = inventario[articulo_editar]
+
+                #Se crea la nueva clave y se le asigna la copia de valor de la clave vieja
                 inventario[nuevo_nombre_articulo] = valor_actual
+
+                #Se elimina la clave vieja
                 del inventario[articulo_editar]
                 print(f"El cambio ha sido realizado correctamente")
                 print(f"Nombre cambiado correctamente a {nuevo_nombre_articulo}")
@@ -51,6 +58,10 @@ def editar_articulo():
         else:
             print("Este articulo no existe, revise el nombre ingresado")
         break
+def eliminar_producto():
+    print("Eliminando Producto")
+
+
 
 def inventarios():
     print("\n==============================")
@@ -61,7 +72,8 @@ def inventarios():
         print("1. Ver Inventario Actual")
         print("2. Añadir Producto")
         print("3. Editar Producto")
-        print("4. Salir")
+        print("4. Eliminar Producto")
+        print("5. Salir")
         opcion = int(input("\nIngrese su opcion: "))
         match opcion:
             case 1:
@@ -74,10 +86,11 @@ def inventarios():
                 for producto, cantidad in inventario.items():
                     print(f"{producto:<15}: {cantidad}")
             case 2:
-                agregar_articulo()
-
+                agregar_producto()
             case 3:
-                editar_articulo()
+                editar_producto()
+            case 4:
+                eliminar_producto()
 
 
 
