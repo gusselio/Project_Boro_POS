@@ -22,14 +22,14 @@ def ventas():
 
 #SUBFUNCIONES DE INVENTARIOS
 def agregar_producto():
-    nombre_artirulo_nuevo = input("Ingrese el nombre del nuevo articulo: ")
+    nombre_articulo_nuevo = input("Ingrese el nombre del nuevo articulo: ")
     cantidad_nuevo_articulo = int(input("Ingrese la cantidad: "))
 
-    if nombre_artirulo_nuevo in inventario:
+    if nombre_articulo_nuevo in inventario:
         print("El nuevo articulo ya existe")
     else:
-        inventario[nombre_artirulo_nuevo] = cantidad_nuevo_articulo
-        print(f"El articulo {nombre_artirulo_nuevo} ha sido agregado correctamente, con {cantidad_nuevo_articulo}")
+        inventario[nombre_articulo_nuevo] = cantidad_nuevo_articulo
+        print(f"El articulo {nombre_articulo_nuevo} ha sido agregado correctamente, con {cantidad_nuevo_articulo}")
 
 def editar_producto():
     articulo_editar = input("Cual articulo quieres editar?: ")
@@ -58,9 +58,22 @@ def editar_producto():
         else:
             print("Este articulo no existe, revise el nombre ingresado")
         break
-def eliminar_producto():
-    print("Eliminando Producto")
 
+def eliminar_producto():
+    producto_eliminar = input("Cual producto quieres eliminar?: ")
+    while True:
+        if producto_eliminar in inventario:
+            print("Seguro que quieres eliminar este articulo?\n1. Si\n2. No")
+            opcion_eliminar_articulo = int(input("Ingrese su opcion: "))
+            if opcion_eliminar_articulo == 1:
+                del inventario[producto_eliminar]
+                print("\nProducto eliminado correctamente")
+                break
+            else:
+                break
+        else:
+            print("El producto no existe, revise el nombre ingresado")
+            break
 
 
 def inventarios():
