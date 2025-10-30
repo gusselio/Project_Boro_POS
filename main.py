@@ -64,7 +64,8 @@ def punto_de_venta():
     while True:
         print("\nQue accion quiere realizar?")
         print("1. Realizar una Venta")
-        print("5. Salir")
+        print("2. Ver inventario")
+        print("3. Salir")
 
 def ventas():
     print("Ventas")
