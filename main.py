@@ -36,9 +36,15 @@ recetas = {
         "Iced Latte": {
             "Cafe": 45, "Leche": 150, "Hielo": 60, "Vasos Frios": 1, "Precio": 65
         }
+
     },
     "Postres": {
-        "Pan de Muerto": 10, "Precio": 40
+        "Pan de Muerto": {
+            "Unidades": 10, "Precio": 40
+        },
+        "Galleta": {
+            "Unidades": 16, "Precio": 20
+        }
     }
 }
 
@@ -59,7 +65,7 @@ inventario = {
 }
 
 
-#SUBFUNCION DE REALIZAR VENTA
+# SUBFUNCIÓN DE REALIZAR VENTA
 def finalizar_venta(pedido_actual):
     total = 0
     print("\n--- RESUMEN DE VENTA ---")
@@ -72,10 +78,10 @@ def finalizar_venta(pedido_actual):
                 total += total_producto
                 print(f"{producto} x{cantidad} = ${total_producto}")
                 break
-
     print(f"\n💰 TOTAL A PAGAR: ${total}")
 
-#SUBFUNCION DE REALIZAR VENTA
+
+# SUBFUNCIÓN DE REALIZAR VENTA
 def seleccionar_producto(categoria, pedido_actual):
     print(f"\n--- {categoria.replace('_', ' ').title()} ---")
     productos = recetas[categoria]
@@ -89,17 +95,24 @@ def seleccionar_producto(categoria, pedido_actual):
 
     # Se guarda o acumula
     pedido_actual[producto_seleccionado] = pedido_actual.get(producto_seleccionado, 0) + cantidad
-    print(f"✅ {cantidad}x {producto_seleccionado} agregado(s) al pedido.\n")
+    print(f"✅ {cantidad}x {producto_seleccionado} agregado(s) al pedido.")
 
-#SUBFUNCIONES DE PUNTO DE VENTA
+    # Mostrar el pedido actual completo
+    print("\n🧾 PEDIDO ACTUAL:")
+    for producto, cantidad in pedido_actual.items():
+        print(f"- {producto}: {cantidad}")
+    print()  # Línea vacía para separar
+
+
+# SUBFUNCIONES DE PUNTO DE VENTA
 def realizar_venta():
     pedido_actual = {}
     while True:
         print("1. Bebidas Calientes")
         print("2. Bebidas Frias")
         print("3. Postres")
-        print("4. Salir")
-        opcion = int(input("Ingrese su opcion: "))
+        print("4. Salir - Ver Total")
+        opcion = int(input("Ingrese su opción: "))
         match opcion:
             case 1:
                 seleccionar_producto("Bebidas Calientes", pedido_actual)
@@ -113,16 +126,17 @@ def realizar_venta():
             case _:
                 print("Opción inválida.")
 
+
 def punto_de_venta():
     print("\n==============================")
     print("        PUNTO DE VENTA")
     print("==============================")
     while True:
-        print("\nQue accion quiere realizar?")
+        print("\n¿Qué acción quiere realizar?")
         print("1. Realizar una Venta")
         print("2. Ver inventario")
         print("3. Salir")
-        opcion = int(input("Ingresa tu opcion: "))
+        opcion = int(input("Ingrese su opción: "))
         match opcion:
             case 1:
                 realizar_venta()
