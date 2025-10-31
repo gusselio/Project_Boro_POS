@@ -7,12 +7,55 @@
 # =========================================
 import time
 
+recetas = {
+    "Bebidas Calientes": {
+        "Cafe Americano": {
+            "Cafe": 10, "Agua": 200, "Vasos Calientes": 1
+        },
+        "Cafe Capuccino": {
+            "Cafe": 10, "Leche": 50, "Agua": 150, "Vasos Calientes": 1
+        },
+        "Cafe Moka": {
+            "Cafe": 60, "Leche": 120, "Chocolate": 20, "Vasos Calientes": 1
+        },
+        "Tisana Frutos Rojos": {
+            "Tisana Roja": 50, "Agua": 360, "Vasos Calientes": 1
+        }
+
+    },
+    "Bebidas Frias": {
+        "Frappuccino Moka": {
+            "Cafe": 10, "Leche": 100, "Hielo": 70, "Vasos Frios": 1
+        },
+        "Frappuccino Chocolate Blanco":{
+            "Chocolate Blanco": 80, "Leche": 180, "Hielo": 180, "Vasos Frios": 1
+        },
+        "Frapuccino Matcha": {
+            "Polvo Matcha": 15,"Agua": 60, "Leche": 240, "Hielo": 60, "Vasos Frios": 1
+        },
+        "Iced Latte": {
+            "Cafe": 45, "Leche": 150, "Hielo": 60, "Vasos Frios": 1
+        }
+    },
+    "Postres": {
+        "Pan de Muerto": 10
+    }
+}
+
 inventario = {
     "Cafe": 10,     #Kilos
     "Leche": 5000,  #Mililitros
     "Azucar": 2000, #Gramos
     "Vasos": 100,   #Unidades
-    "Tapas": 100    #Unidades
+    "Agua": 40000, #Mililitros
+    "Tapas": 100,    #Unidades
+    "Chocolate Blanco":1000, #Gramos
+    "Chocolate": 1000 # Gramos
+    "Vasos Frios": 300, #Unidades
+    "Vasos Calientes": 500, #Unidades
+    "Tisana Roja": 500, #Gramos
+    "Hielo": 20000, #Gamos
+    "Polvo Matcha": 150
 }
 def punto_de_venta():
     print("\nPUNTO DE VENTA")
