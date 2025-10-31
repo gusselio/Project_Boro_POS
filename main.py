@@ -89,7 +89,7 @@ def seleccionar_producto(categoria, pedido_actual):
 
     # Se guarda o acumula
     pedido_actual[producto_seleccionado] = pedido_actual.get(producto_seleccionado, 0) + cantidad
-    print(f"✅ {cantidad}x {producto_seleccionado} agregado(s) al pedido.")
+    print(f"✅ {cantidad}x {producto_seleccionado} agregado(s) al pedido.\n")
 
 #SUBFUNCIONES DE PUNTO DE VENTA
 def realizar_venta():
