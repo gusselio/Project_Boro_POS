@@ -10,35 +10,35 @@ import time
 recetas = {
     "Bebidas Calientes": {
         "Cafe Americano": {
-            "Cafe": 10, "Agua": 200, "Vasos Calientes": 1
+            "Cafe": 10, "Agua": 200, "Vasos Calientes": 1, "Precio": 45
         },
         "Cafe Capuccino": {
-            "Cafe": 10, "Leche": 50, "Agua": 150, "Vasos Calientes": 1
+            "Cafe": 10, "Leche": 50, "Agua": 150, "Vasos Calientes": 1, "Precio": 65
         },
         "Cafe Moka": {
-            "Cafe": 60, "Leche": 120, "Chocolate": 20, "Vasos Calientes": 1
+            "Cafe": 60, "Leche": 120, "Chocolate": 20, "Vasos Calientes": 1, "Precio": 65
         },
         "Tisana Frutos Rojos": {
-            "Tisana Roja": 50, "Agua": 360, "Vasos Calientes": 1
+            "Tisana Roja": 50, "Agua": 360, "Vasos Calientes": 1, "Precio": 50
         }
 
     },
     "Bebidas Frias": {
         "Frappuccino Moka": {
-            "Cafe": 10, "Leche": 100, "Hielo": 70, "Vasos Frios": 1
+            "Cafe": 10, "Leche": 100, "Hielo": 70, "Vasos Frios": 1, "Precio": 85
         },
         "Frappuccino Chocolate Blanco":{
-            "Chocolate Blanco": 80, "Leche": 180, "Hielo": 180, "Vasos Frios": 1
+            "Chocolate Blanco": 80, "Leche": 180, "Hielo": 180, "Vasos Frios": 1, "Precio": 80
         },
         "Frapuccino Matcha": {
-            "Polvo Matcha": 15,"Agua": 60, "Leche": 240, "Hielo": 60, "Vasos Frios": 1
+            "Polvo Matcha": 15,"Agua": 60, "Leche": 240, "Hielo": 60, "Vasos Frios": 1, "Precio": 85
         },
         "Iced Latte": {
-            "Cafe": 45, "Leche": 150, "Hielo": 60, "Vasos Frios": 1
+            "Cafe": 45, "Leche": 150, "Hielo": 60, "Vasos Frios": 1, "Precio": 65
         }
     },
     "Postres": {
-        "Pan de Muerto": 10
+        "Pan de Muerto": 10, "Precio": 40
     }
 }
 
@@ -50,13 +50,69 @@ inventario = {
     "Agua": 40000, #Mililitros
     "Tapas": 100,    #Unidades
     "Chocolate Blanco":1000, #Gramos
-    "Chocolate": 1000 # Gramos
+    "Chocolate": 1000, # Gramos
     "Vasos Frios": 300, #Unidades
     "Vasos Calientes": 500, #Unidades
     "Tisana Roja": 500, #Gramos
     "Hielo": 20000, #Gamos
     "Polvo Matcha": 150
 }
+
+
+#SUBFUNCION DE REALIZAR VENTA
+def finalizar_venta(pedido_actual):
+    total = 0
+    print("\n--- RESUMEN DE VENTA ---")
+    for producto, cantidad in pedido_actual.items():
+        # Buscar a qué categoría pertenece
+        for categoria in recetas.values():
+            if producto in categoria:
+                precio_unitario = categoria[producto]["Precio"]
+                total_producto = precio_unitario * cantidad
+                total += total_producto
+                print(f"{producto} x{cantidad} = ${total_producto}")
+                break
+
+    print(f"\n💰 TOTAL A PAGAR: ${total}")
+
+#SUBFUNCION DE REALIZAR VENTA
+def seleccionar_producto(categoria, pedido_actual):
+    print(f"\n--- {categoria.replace('_', ' ').title()} ---")
+    productos = recetas[categoria]
+
+    for i, producto in enumerate(productos.keys(), start=1):
+        print(f"{i}. {producto} - ${productos[producto]['Precio']}")
+
+    opcion = int(input("Seleccione un producto: "))
+    producto_seleccionado = list(productos.keys())[opcion - 1]
+    cantidad = int(input("Ingrese la cantidad: "))
+
+    # Se guarda o acumula
+    pedido_actual[producto_seleccionado] = pedido_actual.get(producto_seleccionado, 0) + cantidad
+    print(f"✅ {cantidad}x {producto_seleccionado} agregado(s) al pedido.")
+
+#SUBFUNCIONES DE PUNTO DE VENTA
+def realizar_venta():
+    pedido_actual = {}
+    while True:
+        print("1. Bebidas Calientes")
+        print("2. Bebidas Frias")
+        print("3. Postres")
+        print("4. Salir")
+        opcion = int(input("Ingrese su opcion: "))
+        match opcion:
+            case 1:
+                seleccionar_producto("Bebidas Calientes", pedido_actual)
+            case 2:
+                seleccionar_producto("Bebidas Frias", pedido_actual)
+            case 3:
+                seleccionar_producto("Postres", pedido_actual)
+            case 4:
+                finalizar_venta(pedido_actual)
+                break
+            case _:
+                print("Opción inválida.")
+
 def punto_de_venta():
     print("\n==============================")
     print("        PUNTO DE VENTA")
@@ -66,11 +122,30 @@ def punto_de_venta():
         print("1. Realizar una Venta")
         print("2. Ver inventario")
         print("3. Salir")
+        opcion = int(input("Ingresa tu opcion: "))
+        match opcion:
+            case 1:
+                realizar_venta()
+            case 2:
+                visualizar_inventario()
+            case 3:
+                break
+
 
 def ventas():
     print("Ventas")
 
 #SUBFUNCIONES DE INVENTARIOS
+def visualizar_inventario():
+    print("Cargando Inventario")
+    print("\n==============================")
+    print("      INVENTARIO ACTUAL")
+    print("==============================")
+    print(f"{'Nombre':<15} | {'Cantidad'}")
+    print("-" * 30)
+    for producto, cantidad in inventario.items():
+        print(f"{producto:<15}: {cantidad}")
+
 def agregar_producto():
     nombre_articulo_nuevo = input("Ingrese el nombre del nuevo articulo: ")
     cantidad_nuevo_articulo = int(input("Ingrese la cantidad: "))
@@ -140,14 +215,7 @@ def inventarios():
         opcion = int(input("\nIngrese su opcion: "))
         match opcion:
             case 1:
-                print("Cargando Inventario")
-                print("\n==============================")
-                print("      INVENTARIO ACTUAL")
-                print("==============================")
-                print(f"{'Nombre':<15} | {'Cantidad'}")
-                print("-" * 30)
-                for producto, cantidad in inventario.items():
-                    print(f"{producto:<15}: {cantidad}")
+                visualizar_inventario()
             case 2:
                 agregar_producto()
             case 3:
