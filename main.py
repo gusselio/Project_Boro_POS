@@ -213,7 +213,7 @@ def realizar_venta():
         print("1. Bebidas Calientes")
         print("2. Bebidas Frias")
         print("3. Postres")
-        print("4. Salir - Ver Total")
+        print("4. Salir - Ver Total $$$")
         opcion = int(input("Ingrese su opción: "))
         match opcion:
             case 1:
