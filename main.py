@@ -7,6 +7,7 @@
 # =========================================
 import time
 
+
 recetas = {
     "Bebidas Calientes": {
         "Cafe Americano": {
@@ -63,6 +64,101 @@ inventario = {
     "Polvo Matcha": 150
 }
 
+#Diccionario que guarda las alertas de cosas por comprar
+notificaciones_compra = {}
+
+#Se guardan cantidades iniciales para calcular porcentaje restante
+stock_inicial = inventario.copy()
+
+def refresh_notificaciones():
+    """
+    Recalcula notificaciones_compra a partir del inventario y stock_inicial.
+    Llama esto cada vez que cambie inventario manualmente o por ventas.
+    """
+    # Limpiar primero
+    notificaciones_compra.clear()
+
+    for insumo, cantidad_actual in inventario.items():
+        # Si no tenemos un stock_inicial registrado, inicializamos con el actual
+        if insumo not in stock_inicial or stock_inicial.get(insumo, 0) == 0:
+            # evita división por cero; asumimos que el stock inicial ahora es el actual
+            stock_inicial[insumo] = cantidad_actual
+
+        inicial = stock_inicial[insumo]
+        # si por alguna razón inicial es 0, saltamos cálculo de porcentaje
+        if inicial == 0:
+            if cantidad_actual <= 0:
+                notificaciones_compra[insumo] = "⚠️ Agotado"
+            continue
+
+        porcentaje = (cantidad_actual / inicial) * 100
+        if cantidad_actual <= 0:
+            notificaciones_compra[insumo] = "⚠️ Agotado"
+        elif porcentaje <= 25:
+            notificaciones_compra[insumo] = f"{cantidad_actual} unidades restantes ({porcentaje:.1f}%)"
+
+
+def verificar_existencia(producto, cantidad):
+    """
+    Verifica si hay suficiente inventario para preparar cierta cantidad de un producto.
+    Retorna True si se puede vender, False si no.
+    """
+    for categoria in recetas.values():
+        if producto in categoria:
+            receta = categoria[producto]
+            for insumo, cantidad_necesaria in receta.items():
+                if insumo == "Precio":
+                    continue
+                total_requerido = cantidad_necesaria * cantidad
+                disponible = inventario.get(insumo, 0)
+                if disponible < total_requerido:
+                    print(f"❌ No hay suficiente '{insumo}' para preparar {cantidad}x {producto}.")
+                    print(f"Disponible: {disponible}\n")
+                    return False
+            return True
+    return False
+
+def descontar_inventario(producto, cantidad):
+    """
+    Descuenta los insumos del inventario al finalizar la venta.
+    Si algo baja del 25% o se acaba, se agrega a notificaciones.
+    """
+    for categoria in recetas.values():
+        if producto in categoria:
+            receta = categoria[producto]
+            for insumo, cantidad_necesaria in receta.items():
+                if insumo == "Precio":
+                    continue
+                total_requerido = cantidad_necesaria * cantidad
+                inventario[insumo] -= total_requerido
+
+                # Evitar negativos
+                if inventario[insumo] < 0:
+                    inventario[insumo] = 0
+
+                # Calcular porcentaje restante
+                if insumo in stock_inicial:
+                    porcentaje = (inventario[insumo] / stock_inicial[insumo]) * 100
+                    if porcentaje <= 25:
+                        notificaciones_compra[
+                            insumo] = f"{inventario[insumo]} unidades restantes ({porcentaje:.1f}%)"
+                        if inventario[insumo] == 0:
+                            notificaciones_compra[insumo] = "⚠️ Agotado"
+            break
+    # Recalcular todas las notificaciones después de actualizar inventario
+    refresh_notificaciones()
+
+def ver_notificaciones():
+    print("\n==============================")
+    print("       NOTIFICACIONES")
+    print("==============================")
+    if not notificaciones_compra:
+        print("✅ Todo está bien, no hay artículos por comprar.")
+    else:
+        print("⚠️ Debes reabastecer los siguientes artículos:\n")
+        for insumo, estado in notificaciones_compra.items():
+            print(f"- {insumo}: {estado}")
+    print()
 
 # SUBFUNCIÓN DE REALIZAR VENTA
 def finalizar_venta(pedido_actual):
@@ -79,6 +175,9 @@ def finalizar_venta(pedido_actual):
                 break
     print(f"\n💰 TOTAL A PAGAR: ${total}")
 
+    # Descontar insumos del inventario
+    for producto, cantidad in pedido_actual.items():
+        descontar_inventario(producto, cantidad)
 
 # SUBFUNCIÓN DE REALIZAR VENTA
 def seleccionar_producto(categoria, pedido_actual):
@@ -91,6 +190,10 @@ def seleccionar_producto(categoria, pedido_actual):
     opcion = int(input("Seleccione un producto: "))
     producto_seleccionado = list(productos.keys())[opcion - 1]
     cantidad = int(input("Ingrese la cantidad: "))
+
+    if not verificar_existencia(producto_seleccionado, cantidad):
+        print("⚠️ No se agregó al pedido por falta de insumos.\n")
+        return
 
     # Se guarda o acumula
     pedido_actual[producto_seleccionado] = pedido_actual.get(producto_seleccionado, 0) + cantidad
@@ -144,7 +247,6 @@ def punto_de_venta():
             case 3:
                 break
 
-
 def ventas():
     print("Ventas")
 
@@ -186,11 +288,15 @@ def editar_producto():
 
                 #Se elimina la clave vieja
                 del inventario[articulo_editar]
+                if articulo_editar in stock_inicial:
+                    stock_inicial[nuevo_nombre_articulo] = stock_inicial.pop(articulo_editar)
+                refresh_notificaciones()
                 print(f"El cambio ha sido realizado correctamente")
                 print(f"Nombre cambiado correctamente a {nuevo_nombre_articulo}")
             elif opcion_editar_articulo == 2:
                 nueva_cantidad_articulo = int(input("Ingrese su nuevo cantidad: "))
                 inventario[articulo_editar] = nueva_cantidad_articulo
+                refresh_notificaciones()
             else:
                 break
         else:
@@ -205,6 +311,9 @@ def eliminar_producto():
             opcion_eliminar_articulo = int(input("Ingrese su opcion: "))
             if opcion_eliminar_articulo == 1:
                 del inventario[producto_eliminar]
+                stock_inicial.pop(producto_eliminar, None)
+                notificaciones_compra.pop(producto_eliminar, None)
+                refresh_notificaciones()
                 print("\nProducto eliminado correctamente")
                 break
             else:
@@ -238,16 +347,16 @@ def inventarios():
             case 5:
                 break
 
-
-
 #Declaracion de la funcion Menu principal
 def menu_principal():
     while True:
+        #OPCIONES DE MENU PRINCIPAL
         print("CAFE BORO - SISTEMA DE CONTROL")
         print("1. Punto de Venta")
         print("2. Ventas")
         print("3. Inventario")
-        print("4. Salir")
+        print("4. Notificaciones")
+        print("5. Salir")
 
         opcion = int(input("Ingrese su opcion: "))
         match opcion:
@@ -264,6 +373,8 @@ def menu_principal():
                 time.sleep(0.8)
                 inventarios()
             case 4:
+                ver_notificaciones()
+            case 5:
                 print("Programa Finalizado")
                 break
             case _:
