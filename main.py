@@ -52,7 +52,6 @@ inventario = {
     "Cafe": 10,     #Kilos
     "Leche": 5000,  #Mililitros
     "Azucar": 2000, #Gramos
-    "Vasos": 100,   #Unidades
     "Agua": 40000, #Mililitros
     "Tapas": 100,    #Unidades
     "Chocolate Blanco":1000, #Gramos
@@ -264,6 +263,9 @@ def menu_principal():
                 print("\nIngresando a Inventarios")
                 time.sleep(0.8)
                 inventarios()
+            case 4:
+                print("Programa Finalizado")
+                break
             case _:
                 print("Opcion invalida, intentelo nuevamente")
 
