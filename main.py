@@ -1,10 +1,16 @@
-# =========================================
-# Universidad Tecmilenio
-# Proyecto: Sistema de Inventario - Café BORO
-# Versión: Avance lineal (sin clases)
-# Nombre: Gustavo Salvador Leal Dominguez
-# Fecha: 26 de Octubre de 2025
-# =========================================
+"""
+Universidad Tecmilenio
+
+Proyecto: Sistema de Punto de Venta e Inventario - Café BORO
+Versión: Avance lineal (sin clases)
+
+Nombre: Gustavo Salvador Leal Dominguez
+Matricula: 7225668
+
+Materia:   Fundamentos de Programación
+Profesor:  Ing. Carlos A. Sánchez Rivera
+Fecha:     22 de Octubre de 2025
+"""
 import time
 
 
@@ -248,7 +254,8 @@ def punto_de_venta():
                 break
 
 def ventas():
-    print("Ventas")
+    print("FUNCION EN DESARROLLO")
+    return
 
 #SUBFUNCIONES DE INVENTARIOS
 def visualizar_inventario():
