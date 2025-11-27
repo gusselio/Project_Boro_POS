@@ -4,7 +4,7 @@ Universidad Tecmilenio
 Proyecto: Sistema de Punto de Venta e Inventario - Café BORO
 Versión: Avance lineal (sin clases)
 
-Nombre: Gustavo Salvador Leal Dominguez
+Nombre: Ing. Gustavo Salvador Leal Dominguez
 Matricula: 7225668
 
 Materia:   Fundamentos de Programación
