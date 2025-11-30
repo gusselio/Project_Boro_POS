@@ -2,7 +2,7 @@
 Universidad Tecmilenio
 
 Proyecto: Sistema de Punto de Venta e Inventario - Café BORO
-Versión: Avance modular con archivos JSON
+Versión: Proyecto Final
 
 Nombre: Ing. Gustavo Salvador Leal Dominguez
 Matricula: 7225668
@@ -19,7 +19,7 @@ from modulos.inventarios import inventarios
 from modulos.punto_venta import punto_de_venta
 from modulos.notificaciones import ver_notificaciones
 
-# ¡Importante! Cargar datos globales
+# Cargar datos globales
 from modulos.datos import inventario, stock_inicial, notificaciones_compra
 
 
