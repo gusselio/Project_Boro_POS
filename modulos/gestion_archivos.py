@@ -92,13 +92,13 @@ def leer_archivo():
 
         print("\n--- CONTENIDO ---")
 
-        # JSON → se imprime bonito
+        # JSON: se imprime bonito
         if archivo.endswith(".json"):
             with open(ruta_archivo, "r", encoding="utf-8") as f:
                 contenido = json.load(f)
                 print(json.dumps(contenido, indent=4, ensure_ascii=False))
 
-        # TXT → se imprime normal
+        # TXT: se imprime normal
         else:
             with open(ruta_archivo, "r", encoding="utf-8") as f:
                 print(f.read())
@@ -297,7 +297,7 @@ def editar_recetas():
     print("✔ Receta actualizada correctamente.")
 
 # -----------------------------
-#  Esperar opción (usa timeout real)
+#  Esperar opción
 # -----------------------------
 def esperar_opcion(timeout_seconds: int = 600):
     """
