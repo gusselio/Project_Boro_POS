@@ -1,46 +1,51 @@
-# inventarios.py
-
+import json
 from modulos.notificaciones import refresh_notificaciones
-from modulos.datos import inventario, stock_inicial, guardar_inventario, notificaciones_compra, recetas
+from modulos.datos import (
+    cargar_inventario,
+    cargar_recetas,
+    guardar_inventario,
+    notificaciones_compra,
+    stock_inicial,
+)
 
-def descontar_insumos(producto, cantidad):
-    ingredientes = recetas.get(producto, {})
-
-    for insumo, cantidad_necesaria in ingredientes.items():
-        inventario[insumo] -= cantidad * cantidad_necesaria
 
 def visualizar_inventario():
-    """Muestra el inventario actual."""
+    inventario = cargar_inventario()
+
     print("\n==============================")
     print("      INVENTARIO ACTUAL")
     print("==============================")
     print(f"{'Nombre':<15} | {'Cantidad'}")
     print("-" * 30)
+
     for producto, cantidad in inventario.items():
         print(f"{producto:<15}: {cantidad}")
 
 
 def agregar_producto():
-    """Agrega un nuevo artículo al inventario."""
-    nombre_articulo_nuevo = input("Ingrese el nombre del nuevo artículo: ")
-    cantidad_nuevo_articulo = int(input("Ingrese la cantidad: "))
+    inventario = cargar_inventario()  # cargar estado actual
 
-    if nombre_articulo_nuevo in inventario:
+    nombre = input("Ingrese el nombre del nuevo artículo: ")
+    cantidad = int(input("Ingrese la cantidad: "))
+
+    if nombre in inventario:
         print("❌ El artículo ya existe.")
-    else:
-        inventario[nombre_articulo_nuevo] = cantidad_nuevo_articulo
-        stock_inicial[nombre_articulo_nuevo] = cantidad_nuevo_articulo
-        refresh_notificaciones()
-        print(f"✅ Artículo '{nombre_articulo_nuevo}' agregado con {cantidad_nuevo_articulo} unidades.")
+        return
+
+    inventario[nombre] = cantidad
+    stock_inicial[nombre] = cantidad
 
     guardar_inventario()
     refresh_notificaciones()
+    print(f"✅ Artículo '{nombre}' agregado.")
+
 
 def editar_producto():
-    """Edita nombre o cantidad de un artículo existente."""
-    articulo_editar = input("¿Qué artículo quieres editar?: ")
+    inventario = cargar_inventario()
 
-    if articulo_editar not in inventario:
+    articulo = input("¿Qué artículo deseas editar?: ")
+
+    if articulo not in inventario:
         print("❌ El artículo no existe.")
         return
 
@@ -55,46 +60,45 @@ def editar_producto():
         if opcion == 1:
             nuevo_nombre = input("Nuevo nombre: ")
 
-            valor_actual = inventario[articulo_editar]
-
-            # Renombrar en inventario
+            valor_actual = inventario[articulo]
             inventario[nuevo_nombre] = valor_actual
-            del inventario[articulo_editar]
+            del inventario[articulo]
 
-            # Renombrar en stock inicial
-            if articulo_editar in stock_inicial:
-                stock_inicial[nuevo_nombre] = stock_inicial.pop(articulo_editar)
+            # actualizar stock inicial
+            if articulo in stock_inicial:
+                stock_inicial[nuevo_nombre] = stock_inicial.pop(articulo)
 
-            # Renombrar en notificaciones si existiera
-            if articulo_editar in notificaciones_compra:
-                notificaciones_compra[nuevo_nombre] = notificaciones_compra.pop(articulo_editar)
+            # actualizar notificaciones
+            if articulo in notificaciones_compra:
+                notificaciones_compra[nuevo_nombre] = notificaciones_compra.pop(articulo)
 
-            refresh_notificaciones()
             print("✅ Nombre actualizado correctamente.")
             break
 
         elif opcion == 2:
             nueva_cantidad = int(input("Nueva cantidad: "))
-            inventario[articulo_editar] = nueva_cantidad
-            stock_inicial[articulo_editar] = nueva_cantidad
-            refresh_notificaciones()
+            inventario[articulo] = nueva_cantidad
+            stock_inicial[articulo] = nueva_cantidad
             print("✅ Cantidad actualizada.")
             break
 
         elif opcion == 3:
             print("Edición cancelada.")
-            break
+            return
 
         else:
             print("❌ Opción inválida.")
+
     guardar_inventario()
     refresh_notificaciones()
 
-def eliminar_producto():
-    """Elimina un artículo del inventario."""
-    producto_eliminar = input("¿Qué producto deseas eliminar?: ")
 
-    if producto_eliminar not in inventario:
+def eliminar_producto():
+    inventario = cargar_inventario()
+
+    producto = input("¿Qué producto deseas eliminar?: ")
+
+    if producto not in inventario:
         print("❌ El producto no existe.")
         return
 
@@ -104,15 +108,17 @@ def eliminar_producto():
     opcion = int(input("Ingrese su opción: "))
 
     if opcion == 1:
-        del inventario[producto_eliminar]
-        stock_inicial.pop(producto_eliminar, None)
-        notificaciones_compra.pop(producto_eliminar, None)
+        del inventario[producto]
+        stock_inicial.pop(producto, None)
+        notificaciones_compra.pop(producto, None)
+
+        guardar_inventario()
         refresh_notificaciones()
+
         print("🗑️ Producto eliminado correctamente.")
     else:
         print("Cancelado.")
-    guardar_inventario()
-    refresh_notificaciones()
+
 
 def inventarios():
     """Menú principal del módulo de inventarios."""

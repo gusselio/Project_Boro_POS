@@ -1,6 +1,6 @@
 from modulos.datos import inventario, recetas, stock_inicial, guardar_inventario, historial_ventas, guardar_historial
 from modulos.notificaciones import refresh_notificaciones, notificaciones_compra
-from modulos.inventarios import visualizar_inventario, descontar_insumos
+from modulos.inventarios import visualizar_inventario
 from datetime import datetime
 
 
@@ -45,7 +45,6 @@ def descontar_inventario(producto, cantidad):
 #   Finalizar venta
 # ----------------------------------
 def finalizar_venta(pedido_actual):
-    from modulos.datos import historial_ventas
     total = 0
     venta_realizada = []
 
@@ -53,7 +52,7 @@ def finalizar_venta(pedido_actual):
 
     for producto, cantidad in pedido_actual.items():
 
-        # BUSCAR EL PRECIO EN RECETAS
+        # Buscar precio
         precio = None
         for categoria, items in recetas.items():
             if producto in items:
@@ -65,21 +64,28 @@ def finalizar_venta(pedido_actual):
             continue
 
         subtotal = precio * cantidad
-
-        print(f"{producto} x{cantidad} = ${subtotal}")
         total += subtotal
 
-        # Descontar inventario
-        descontar_insumos(producto, cantidad)
+        print(f"{producto} x{cantidad} = ${subtotal}")
 
-        # Registrar en historial
+        # Descontar inventario
+        descontar_inventario(producto, cantidad)
+
+        # Registrar venta
         venta_realizada.append({
             "producto": producto,
             "cantidad": cantidad,
             "subtotal": subtotal
         })
 
-    historial_ventas.append(venta_realizada)
+    # Guardar en historial global
+    hora_venta = datetime.now().strftime("%H:%M:%S")
+
+    historial_ventas.append({
+        "hora": hora_venta,
+        "detalle": venta_realizada
+    })
+    guardar_historial()  # 🔥 Muy importante
 
     print(f"\n💰 TOTAL A PAGAR: ${total}")
     input("\nPresione Enter para continuar...")

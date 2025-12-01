@@ -6,6 +6,16 @@ DB_PATH = os.path.join(BASE_PATH, "database")
 
 
 # -------------------- FUNCIONES DE ARCHIVOS JSON --------------------
+def cargar_inventario():
+    global inventario, stock_inicial
+    inventario = cargar_json("inventario.json")
+    stock_inicial = inventario.copy()
+    return inventario
+
+def cargar_recetas():
+    global recetas
+    recetas = cargar_json("recetas.json")
+    return recetas
 
 def cargar_json(nombre_archivo):
     ruta = os.path.join(DB_PATH, nombre_archivo)
