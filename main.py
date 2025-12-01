@@ -9,7 +9,7 @@ Matrícula: 7225668
 
 Materia:   Fundamentos de Programación
 Profesor:  Ing. Carlos A. Sánchez Rivera
-Fecha:     22 de octubre de 2025
+Fecha: 22 de octubre de 2025
 """
 
 import time
