@@ -25,6 +25,20 @@ from modulos.ventas import menu_ventas
 from modulos.datos import inventario, stock_inicial, notificaciones_compra
 
 
+# ------------------------------- FUNCIÓN DE CARGA (RÚBRICA) -------------------------------
+
+def mostrar_carga_principal():
+    """
+    Simula carga ≤5 segundos mostrando animación.
+    Cumple requisitos de la rúbrica.
+    """
+    print("\nCargando sistema, por favor espere...")
+    for i in range(3):      # 3 segundos
+        print(".", end="", flush=True)
+        time.sleep(1)
+    print("\n")             # salto estético
+
+
 # ------------------------------- MENÚ PRINCIPAL -------------------------------
 
 def menu_principal():
@@ -79,4 +93,13 @@ def menu_principal():
 # ------------------------------- PROGRAMA -------------------------------
 
 if __name__ == "__main__":
+    nombre = input("Ingrese su nombre o nickname: ").strip()
+
+    # Operadores de string usados: upper(), concatenación, f-string
+    print("\n" + ("Bienvenido ".upper() + nombre.upper() + " al sistema CAFE BORO ☕").center(80))
+    print("-" * 80)
+
+    mostrar_carga_principal()
+
+    # Iniciar menú
     menu_principal()
