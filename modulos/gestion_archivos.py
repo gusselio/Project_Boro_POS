@@ -112,8 +112,6 @@ def leer_archivo():
     except Exception as e:
         print(f"⚠️ Error inesperado: {e}")
 
-
-
 # -----------------------------
 #  Crear archivo
 # -----------------------------
@@ -198,7 +196,12 @@ def editar_inventario():
     for item, cantidad in inventario.items():
         print(f"- {item}: {cantidad}")
 
-    producto = input("\nIngrese el producto a modificar: ")
+    print("\nEscriba 'salir' para regresar sin editar.")
+    producto = input("Ingrese el producto a modificar: ").strip()
+
+    if producto.lower() == "salir":
+        print("↩ Regresando al menú sin cambios...")
+        return
 
     if producto not in inventario:
         print("❌ Ese producto no existe.")
@@ -229,9 +232,14 @@ def editar_recetas():
             insumos = data.get("Insumos", "No definidos")
             print(f" - {producto}: Precio ${precio}, Insumos: {insumos}")
 
-    producto = input("\nIngrese el nombre del producto a modificar: ")
+    print("\nEscriba 'salir' para regresar sin editar.")
+    producto = input("\nIngrese el nombre del producto a modificar: ").strip()
 
-    # Buscar producto en la estructura
+    if producto.lower() == "salir":
+        print("↩ Regresando al menú sin cambios...")
+        return
+
+    # Buscar producto
     encontrado = None
     for categoria, items in recetas.items():
         if producto in items:
@@ -247,7 +255,12 @@ def editar_recetas():
     print("\n¿Qué desea modificar?")
     print("[1] Precio")
     print("[2] Insumos")
-    opcion = input("Seleccione: ")
+    print("[3] Salir")
+    opcion = input("Seleccione: ").strip()
+
+    if opcion == "3":
+        print("↩ Regresando sin cambios...")
+        return
 
     if opcion == "1":
         try:
@@ -260,24 +273,28 @@ def editar_recetas():
     elif opcion == "2":
         print("Formato: insumo1:10, insumo2:5")
         texto = input("Nuevos insumos: ")
+
+        if texto.lower().strip() == "salir":
+            print("↩ Regresando sin cambios...")
+            return
+
         try:
             nuevos_insumos = {}
             pares = texto.split(",")
             for par in pares:
                 nombre, cantidad = par.split(":")
                 nuevos_insumos[nombre.strip()] = int(cantidad.strip())
-
             recetas[categoria][producto]["Insumos"] = nuevos_insumos
         except:
             print("❌ Error en formato de insumos.")
             return
+
     else:
         print("❌ Opción inválida.")
         return
 
     guardar_json("recetas.json", recetas)
     print("✔ Receta actualizada correctamente.")
-
 
 # -----------------------------
 #  Esperar opción (usa timeout real)
@@ -290,7 +307,6 @@ def esperar_opcion(timeout_seconds: int = 600):
     print(f"⏳ Tienes {timeout_seconds//60} minutos para elegir una opción...")
     respuesta = input_with_timeout("Ingrese opción (o presione Enter para mostrar prompt directo): ", timeout_seconds)
     return respuesta
-
 
 # -----------------------------
 #  FUNCIÓN PRINCIPAL DEL MÓDULO
