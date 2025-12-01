@@ -48,5 +48,30 @@
                 "subtotal": 85
             }
         ]
+    },
+    {
+        "hora": "20:36:45",
+        "detalle": [
+            {
+                "producto": "Cafe Capuccino",
+                "cantidad": 3,
+                "subtotal": 195
+            },
+            {
+                "producto": "Iced Latte",
+                "cantidad": 5,
+                "subtotal": 325
+            }
+        ]
+    },
+    {
+        "hora": "20:44:53",
+        "detalle": [
+            {
+                "producto": "Iced Latte",
+                "cantidad": 1,
+                "subtotal": 65
+            }
+        ]
     }
 ]
